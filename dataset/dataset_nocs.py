@@ -406,7 +406,7 @@ class Dataset(data.Dataset):
         t = t / 1000.0
         cloud = cloud / 1000.0
         target = target / 1000.0
-        
+
         if syn_or_real:
             cloud = cloud + np.random.normal(loc=0.0, scale=0.003, size=cloud.shape)
 
@@ -428,9 +428,10 @@ class Dataset(data.Dataset):
         syn_or_real = (random.randint(1, 20) < 15)
         if self.mode == 'val':
             syn_or_real = False
-        
+
         if syn_or_real:
             while 1:
+                """
                 try:
                     choose_obj = random.sample(self.obj_name_list[self.cate_id], 1)[0]
                     choose_frame = random.sample(self.obj_list[self.cate_id][choose_obj], 2)
@@ -454,6 +455,7 @@ class Dataset(data.Dataset):
 
         else:
             while 1:
+                """
                 try:
                     choose_obj = random.sample(self.real_obj_name_list[self.cate_id], 1)[0]
                     choose_frame = random.sample(self.real_obj_list[self.cate_id][choose_obj], 2)
@@ -606,7 +608,7 @@ def get_2dbbox(cloud, cam_cx, cam_cy, cam_fx, cam_fy, cam_scale):
     rmax = center[0] + int(r_b / 2)
     cmin = center[1] - int(c_b / 2)
     cmax = center[1] + int(c_b / 2)
-        
+
     if rmin < 0:
         delt = -rmin
         rmin = 0
