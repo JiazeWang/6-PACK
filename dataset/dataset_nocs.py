@@ -455,17 +455,17 @@ class Dataset(data.Dataset):
         else:
             while 1:
 
-                #try:
-                choose_obj = random.sample(self.real_obj_name_list[self.cate_id], 1)[0]
-                choose_frame = random.sample(self.real_obj_list[self.cate_id][choose_obj], 2)
+                try:
+                    choose_obj = random.sample(self.real_obj_name_list[self.cate_id], 1)[0]
+                    choose_frame = random.sample(self.real_obj_list[self.cate_id][choose_obj], 2)
 
-                img_fr, choose_fr, cloud_fr, r_fr, t_fr, target, _ = self.get_frame(choose_frame[0], choose_obj, syn_or_real)
-                img_to, choose_to, cloud_to, r_to, t_to, target, _ = self.get_frame(choose_frame[1], choose_obj, syn_or_real)
-                if np.max(abs(target)) > 1.0:
+                    img_fr, choose_fr, cloud_fr, r_fr, t_fr, target, _ = self.get_frame(choose_frame[0], choose_obj, syn_or_real)
+                    img_to, choose_to, cloud_to, r_to, t_to, target, _ = self.get_frame(choose_frame[1], choose_obj, syn_or_real)
+                    if np.max(abs(target)) > 1.0:
+                        continue
+                    break
+                except:
                     continue
-                break
-                #except:
-                #    continue
 
         if False:
             p_img = np.transpose(img_fr, (1, 2, 0))
