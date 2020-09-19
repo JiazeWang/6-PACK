@@ -431,6 +431,7 @@ class Dataset(data.Dataset):
 
         if syn_or_real:
             while 1:
+                """
                 try:
                     choose_obj = random.sample(self.obj_name_list[self.cate_id], 1)[0]
                     choose_frame = random.sample(self.obj_list[self.cate_id][choose_obj], 2)
@@ -448,15 +449,12 @@ class Dataset(data.Dataset):
                     cloud_to = cloud_to * scale_factor
                     mesh = mesh_pts_fr * scale_factor_mesh_fr
                     t_to = t_to * scale_factor
-                    break
-                except KeyboardInterrupt:
-                    # do nothing here
-                    pass
                 except:
                     continue
 
         else:
             while 1:
+                """
                 try:
                     choose_obj = random.sample(self.real_obj_name_list[self.cate_id], 1)[0]
                     choose_frame = random.sample(self.real_obj_list[self.cate_id][choose_obj], 2)
