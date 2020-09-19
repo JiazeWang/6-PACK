@@ -53,7 +53,34 @@ for epoch in range(0, 500):
     train_count = 0
 
     optimizer.zero_grad()
+    model.eval()
+    score = []
+    #add
+    for j, data in enumerate(testdataloader, 0):
+        img_fr, choose_fr, cloud_fr, r_fr, t_fr, img_to, choose_to, cloud_to, r_to, t_to, mesh, anchor, scale, cate = data
+        img_fr, choose_fr, cloud_fr, r_fr, t_fr, img_to, choose_to, cloud_to, r_to, t_to, mesh, anchor, scale, cate = Variable(img_fr).cuda(), \
+                                                                                                                     Variable(choose_fr).cuda(), \
+                                                                                                                     Variable(cloud_fr).cuda(), \
+                                                                                                                     Variable(r_fr).cuda(), \
+                                                                                                                     Variable(t_fr).cuda(), \
+                                                                                                                     Variable(img_to).cuda(), \
+                                                                                                                     Variable(choose_to).cuda(), \
+                                                                                                                     Variable(cloud_to).cuda(), \
+                                                                                                                     Variable(r_to).cuda(), \
+                                                                                                                     Variable(t_to).cuda(), \
+                                                                                                                     Variable(mesh).cuda(), \
+                                                                                                                     Variable(anchor).cuda(), \
+                                                                                                                     Variable(scale).cuda(), \
+                                                                                                                     Variable(cate).cuda()
 
+        Kp_fr, anc_fr, att_fr = model(img_fr, choose_fr, cloud_fr, anchor, scale, cate, t_fr)
+        Kp_to, anc_to, att_to = model(img_to, choose_to, cloud_to, anchor, scale, cate, t_to)
+
+        _, item_score = criterion(Kp_fr, Kp_to, anc_fr, anc_to, att_fr, att_to, r_fr, t_fr, r_to, t_to, mesh, scale, cate)
+
+        print(item_score)
+        score.append(item_score)
+    #add
     for i, data in enumerate(dataloader, 0):
         img_fr, choose_fr, cloud_fr, r_fr, t_fr, img_to, choose_to, cloud_to, r_to, t_to, mesh, anchor, scale, cate = data
         img_fr, choose_fr, cloud_fr, r_fr, t_fr, img_to, choose_to, cloud_to, r_to, t_to, mesh, anchor, scale, cate = Variable(img_fr).cuda(), \
@@ -114,7 +141,7 @@ for epoch in range(0, 500):
         Kp_to, anc_to, att_to = model(img_to, choose_to, cloud_to, anchor, scale, cate, t_to)
 
         _, item_score = criterion(Kp_fr, Kp_to, anc_fr, anc_to, att_fr, att_to, r_fr, t_fr, r_to, t_to, mesh, scale, cate)
-        
+
         print(item_score)
         score.append(item_score)
 
