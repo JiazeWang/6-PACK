@@ -431,26 +431,26 @@ class Dataset(data.Dataset):
 
         if syn_or_real:
             while 1:
-                try:
-                    choose_obj = random.sample(self.obj_name_list[self.cate_id], 1)[0]
-                    choose_frame = random.sample(self.obj_list[self.cate_id][choose_obj], 2)
+                #try:
+                choose_obj = random.sample(self.obj_name_list[self.cate_id], 1)[0]
+                choose_frame = random.sample(self.obj_list[self.cate_id][choose_obj], 2)
 
-                    img_fr, choose_fr, cloud_fr, r_fr, t_fr, target_fr, mesh_pts_fr, mesh_bbox_fr, mask_target = self.get_frame(choose_frame[0], choose_obj, syn_or_real)
-                    if np.max(abs(target_fr)) > 1.0:
-                        continue
-                    img_to, choose_to, cloud_to, r_to, t_to, target_to, _, _, _, = self.get_frame(choose_frame[1], choose_obj, syn_or_real)
-                    if np.max(abs(target_to)) > 1.0:
-                        continue
-
-                    target, scale_factor = self.re_scale(target_fr, target_to)
-                    target_mesh_fr, scale_factor_mesh_fr = self.re_scale(target_fr, mesh_bbox_fr)
-
-                    cloud_to = cloud_to * scale_factor
-                    mesh = mesh_pts_fr * scale_factor_mesh_fr
-                    t_to = t_to * scale_factor
-                    break
-                except:
+                img_fr, choose_fr, cloud_fr, r_fr, t_fr, target_fr, mesh_pts_fr, mesh_bbox_fr, mask_target = self.get_frame(choose_frame[0], choose_obj, syn_or_real)
+                if np.max(abs(target_fr)) > 1.0:
                     continue
+                img_to, choose_to, cloud_to, r_to, t_to, target_to, _, _, _, = self.get_frame(choose_frame[1], choose_obj, syn_or_real)
+                if np.max(abs(target_to)) > 1.0:
+                    continue
+
+                target, scale_factor = self.re_scale(target_fr, target_to)
+                target_mesh_fr, scale_factor_mesh_fr = self.re_scale(target_fr, mesh_bbox_fr)
+
+                cloud_to = cloud_to * scale_factor
+                mesh = mesh_pts_fr * scale_factor_mesh_fr
+                t_to = t_to * scale_factor
+                break
+                #except:
+                #    continue
 
         else:
             while 1:
@@ -462,7 +462,7 @@ class Dataset(data.Dataset):
                 img_to, choose_to, cloud_to, r_to, t_to, target, _ = self.get_frame(choose_frame[1], choose_obj, syn_or_real)
                 if np.max(abs(target)) > 1.0:
                     continue
-                #    break
+                break
                 #except:
                 #    continue
 
